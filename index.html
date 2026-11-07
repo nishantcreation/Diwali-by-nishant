@@ -1,260 +1,659 @@
 <!DOCTYPE html>
+
 <html lang="en">
+
 <head>
+
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+
 <meta name="theme-color" content="#ffd84d">
+
 <title>A Little Diwali Surprise By Nishant</title>
+
 <style>
-  :root { --gold:#ffd84d; --deep:#8b4b13; --ink:#4b2b0b; --cream:#fff8dc; }
-  * { box-sizing:border-box; }
-  html,body { margin:0; min-height:100%; }
-  body {
-    min-height:100vh; overflow:hidden; color:var(--ink);
-    font-family: Georgia, "Times New Roman", serif;
-    background:
-      radial-gradient(ellipse at 50% 42%, rgba(255,255,255,.82) 0%, rgba(255,248,220,.74) 34%, transparent 70%),
-      linear-gradient(135deg,#ffe98b 0%,#ffd84d 48%,#f6b928 100%);
-  }
-  .scene { min-height:100svh; display:grid; place-items:center; position:relative; isolation:isolate; padding:110px 22px 42px; }
-  .glow { position:absolute; width:340px; height:340px; border-radius:50%; filter:blur(45px); opacity:.35; z-index:-1; }
-  .glow.one { background:#fff; top:18%; left:12%; }
-  .glow.two { background:#ff9d27; right:8%; bottom:8%; }
-  .corner { position:absolute; top:0; width:min(34vw,310px); height:210px; pointer-events:none; }
-  .corner.left { left:0; }
-  .corner.right { right:0; transform:scaleX(-1); }
-  .string { position:absolute; left:18px; top:-5px; width:2px; height:112px; background:linear-gradient(#a55a16,#c77a20); transform:rotate(9deg); transform-origin:top; }
-  .string.s2 { left:84px; height:82px; transform:rotate(-5deg); }
-  .string.s3 { left:145px; height:125px; transform:rotate(7deg); }
-  .string.s4 { left:220px; height:91px; transform:rotate(-8deg); }
-  .bulb { position:absolute; top:var(--top); left:var(--left); width:17px; height:23px; border-radius:50% 50% 48% 48%; background:#fff5a6; box-shadow:0 0 8px 4px #fff4a0,0 0 22px 8px rgba(255,173,34,.8); animation:twinkle 1.8s ease-in-out infinite alternate; animation-delay:var(--delay); }
-  .bulb:before { content:""; position:absolute; width:7px; height:5px; background:#a65c1b; top:-4px; left:5px; border-radius:2px; }
-  .spark { position:absolute; font-family:Arial,sans-serif; color:#fff8c2; font-size:29px; text-shadow:0 0 8px #ff9b19,0 0 18px #ff9b19; animation:twinkle 1.4s infinite alternate; }
-  .spark.a { top:122px; left:30px; } .spark.b { top:48px; left:178px; font-size:22px; }
-  .spark.c { top:145px; left:232px; font-size:19px; }
-  .card { width:min(680px,100%); text-align:center; padding:clamp(28px,6vw,58px) clamp(22px,6vw,60px); border:1px solid rgba(151,88,17,.22); border-radius:28px; background:rgba(255,252,232,.64); box-shadow:0 22px 70px rgba(128,76,10,.14), inset 0 1px 0 rgba(255,255,255,.9); backdrop-filter:blur(9px); animation:arrive 1s cubic-bezier(.2,.8,.2,1) both; }
-  .eyebrow { text-transform:uppercase; letter-spacing:.24em; font:600 11px/1.5 Arial,sans-serif; color:#a86a19; margin:0 0 22px; }
-  h1 { font-size:clamp(34px,7vw,58px); line-height:1.05; font-weight:500; margin:0 auto 22px; color:#713b0e; }
-  .divider { display:flex; align-items:center; gap:12px; justify-content:center; margin:0 auto 24px; color:#c17a1b; }
-  .divider:before,.divider:after { content:""; width:54px; height:1px; background:linear-gradient(90deg,transparent,#c17a1b); }
-  .divider:after { transform:scaleX(-1); }
-  .message { max-width:490px; margin:0 auto; font:400 clamp(16px,2.6vw,19px)/1.8 Arial,sans-serif; color:#68451f; }
-  .signature { margin:28px 0 30px; font-style:italic; font-size:19px; color:#9b5d16; }
-  .continue { display:inline-flex; align-items:center; justify-content:center; gap:12px; border:0; border-radius:999px; padding:15px 25px 15px 28px; background:#8d4b12; color:#fff8df; font:600 14px Arial,sans-serif; letter-spacing:.04em; cursor:pointer; box-shadow:0 8px 20px rgba(110,57,8,.22); transition:transform .2s, box-shadow .2s, background .2s; }
-  .continue:hover { transform:translateY(-3px); background:#713a0c; box-shadow:0 12px 24px rgba(110,57,8,.28); }
-  .firework-icon { font-size:22px; line-height:1; }
-  .footnote { position:absolute; bottom:17px; left:0; right:0; text-align:center; color:rgba(89,53,13,.58); font:11px Arial,sans-serif; letter-spacing:.12em; text-transform:uppercase; }
-  .next { display:none; }
-  .scene.show-next .intro { display:none; }
-  .scene.show-next .next { display:block; animation:arrive .6s ease both; }
-  .mini-fireworks { font-size:44px; letter-spacing:12px; margin-bottom:18px; }
-  @keyframes twinkle { from { opacity:.55; transform:scale(.88); } to { opacity:1; transform:scale(1.12); } }
-  @keyframes arrive { from { opacity:0; transform:translateY(18px) scale(.98); } to { opacity:1; transform:translateY(0) scale(1); } }
-  .activity-card { max-width:720px; }
-  .page-three { display:none; }
-  .score-line { margin:18px 0 12px; font:15px Arial,sans-serif; color:#855018; }
-  .score-line strong { font-size:20px; color:#713b0e; }
-  .game-area { position:relative; height:210px; max-width:480px; margin:0 auto 12px; overflow:hidden; border:1px dashed rgba(141,75,18,.35); border-radius:20px; background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.55),rgba(255,220,105,.32)); }
-  .diya-target,.bomb-target { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); border:0; background:transparent; font-size:42px; cursor:pointer; padding:10px; touch-action:manipulation; }
-  .diya-target { filter:drop-shadow(0 0 9px #ffb52e); animation:diyaPulse .65s ease-in-out infinite alternate; }
-  .bomb-target { font-size:36px; filter:drop-shadow(0 0 7px #d85b20); animation:diyaPulse .45s ease-in-out infinite alternate; }
-  .diya-target:focus-visible,.bomb-target:focus-visible { outline:3px solid #8d4b12; border-radius:50%; }
-  .game-hint { position:absolute; left:0; right:0; bottom:10px; text-align:center; font:12px Arial,sans-serif; color:#946020; pointer-events:none; }
-  .game-status { min-height:22px; margin:8px 0 18px; font:14px Arial,sans-serif; color:#855018; }
-  .continue.locked { opacity:.55; cursor:not-allowed; box-shadow:none; }
-  .continue.unlocked { background:#267044; }
-  @keyframes diyaPulse { from { filter:drop-shadow(0 0 4px #ffb52e); } to { filter:drop-shadow(0 0 15px #ff8c00); } }
-  @media(max-width:520px) {
-    .corner { width:42vw; height:155px; transform:scale(.78); transform-origin:top left; }
-    .corner.right { transform:scaleX(-1) scale(.78); transform-origin:top right; }
-    .scene { padding-top:120px; }
-    .card { border-radius:22px; }
-  }
-  @media(prefers-reduced-motion:reduce) { *,*:before,*:after { animation:none!important; transition:none!important; } }
+
+:root{--gold:#ffd84d;--deep:#8d4b12;--ink:#4b2b0b;--cream:#fff8dc}
+
+*{box-sizing:border-box}
+
+html,body{margin:0;min-height:100%}
+
+body{min-height:100svh;overflow-x:hidden;color:var(--ink);font-family:Georgia,"Times New Roman",serif;background:radial-gradient(ellipse at 50% 42%,rgba(255,255,255,.82),rgba(255,248,220,.72) 34%,transparent 70%),linear-gradient(135deg,#ffe98b,#ffd84d 48%,#f6b928)}
+
+.scene{min-height:100svh;display:grid;place-items:center;position:relative;isolation:isolate;padding:115px 20px 36px}
+
+.glow{position:fixed;width:340px;height:340px;border-radius:50%;filter:blur(45px);opacity:.35;z-index:-1;pointer-events:none}
+
+.glow.one{background:#fff;top:18%;left:12%}
+
+.glow.two{background:#ff9d27;right:8%;bottom:8%}
+
+.corner{position:fixed;top:0;width:min(34vw,310px);height:190px;pointer-events:none;z-index:0}
+
+.corner.left{left:0}
+
+.corner.right{right:0;transform:scaleX(-1)}
+
+.string{position:absolute;left:18px;top:-5px;width:2px;height:112px;background:linear-gradient(#a55a16,#c77a20);transform:rotate(9deg);transform-origin:top}
+
+.string.s2{left:84px;height:82px;transform:rotate(-5deg)}
+
+.string.s3{left:145px;height:125px;transform:rotate(7deg)}
+
+.string.s4{left:220px;height:91px;transform:rotate(-8deg)}
+
+.bulb{position:absolute;top:var(--top);left:var(--left);width:17px;height:23px;border-radius:50%;background:#fff5a6;box-shadow:0 0 8px 4px #fff4a0,0 0 22px 8px rgba(255,173,34,.8);animation:twinkle 1.8s ease-in-out infinite alternate;animation-delay:var(--delay)}
+
+.bulb:before{content:"";position:absolute;width:7px;height:5px;background:#a65c1b;top:-4px;left:5px;border-radius:2px}
+
+.spark{position:absolute;color:#fff8c2;font:29px Arial;text-shadow:0 0 8px #ff9b19,0 0 18px #ff9b19;animation:twinkle 1.4s infinite alternate}
+
+.spark.a{top:122px;left:30px}
+
+.spark.b{top:48px;left:178px;font-size:22px}
+
+.spark.c{top:145px;left:232px;font-size:19px}
+
+.card{position:relative;z-index:1;width:min(680px,100%);text-align:center;padding:clamp(27px,6vw,56px) clamp(20px,6vw,58px);border:1px solid rgba(151,88,17,.22);border-radius:28px;background:rgba(255,252,232,.72);box-shadow:0 22px 70px rgba(128,76,10,.14),inset 0 1px 0 rgba(255,255,255,.9);backdrop-filter:blur(9px);animation:arrive .65s ease both}
+
+.card[hidden]{display:none!important}
+
+.eyebrow{text-transform:uppercase;letter-spacing:.22em;font:700 11px/1.5 Arial,sans-serif;color:#a86a19;margin:0 0 20px}
+
+h1{font-size:clamp(34px,7vw,56px);line-height:1.07;font-weight:500;margin:0 auto 20px;color:#713b0e}
+
+.divider{display:flex;align-items:center;gap:12px;justify-content:center;margin:0 auto 22px;color:#c17a1b}
+
+.divider:before,.divider:after{content:"";width:54px;height:1px;background:linear-gradient(90deg,transparent,#c17a1b)}
+
+.divider:after{transform:scaleX(-1)}
+
+.message{max-width:500px;margin:0 auto;font:400 clamp(16px,2.6vw,19px)/1.75 Arial,sans-serif;color:#68451f}
+
+.signature{margin:25px 0 28px;font-style:italic;font-size:19px;color:#9b5d16}
+
+.continue{display:inline-flex;align-items:center;justify-content:center;gap:10px;border:0;border-radius:999px;padding:15px 26px;background:#8d4b12;color:#fff8df;font:700 14px Arial,sans-serif;letter-spacing:.04em;cursor:pointer;box-shadow:0 8px 20px rgba(110,57,8,.22);touch-action:manipulation}
+
+.continue:active{transform:scale(.97)}
+
+.firework-icon{font-size:22px}
+
+.score-line{margin:18px 0 12px;font:15px Arial,sans-serif;color:#855018}
+
+.score-line strong{font-size:20px;color:#713b0e}
+
+.game-area{position:relative;height:215px;max-width:480px;margin:0 auto 12px;overflow:hidden;border:1px dashed rgba(141,75,18,.35);border-radius:20px;background:radial-gradient(circle at 50% 45%,rgba(255,255,255,.6),rgba(255,220,105,.32))}
+
+.diya-target,.bomb-target{position:absolute;border:0;background:transparent;cursor:pointer;padding:10px;touch-action:manipulation}
+
+.diya-target{left:50%;top:50%;transform:translate(-50%,-50%);font-size:42px;filter:drop-shadow(0 0 9px #ffb52e);animation:diyaPulse .65s ease-in-out infinite alternate}
+
+.bomb-target{font-size:36px;filter:drop-shadow(0 0 7px #d85b20);animation:diyaPulse .45s ease-in-out infinite alternate}
+
+.game-hint{position:absolute;left:8px;right:8px;bottom:10px;text-align:center;font:12px Arial,sans-serif;color:#946020;pointer-events:none}
+
+.game-status{min-height:22px;margin:8px 0 14px;font:14px/1.5 Arial,sans-serif;color:#855018}
+
+.retry{margin-top:5px}
+
+.page-three{overflow:hidden}
+
+.page-three h1{font-size:clamp(36px,8vw,62px)}
+
+.mission-stage{position:relative;max-width:480px;margin:22px auto 14px;padding:18px 12px 14px;border:1px dashed rgba(141,75,18,.38);border-radius:22px;background:radial-gradient(circle,rgba(255,255,255,.72),rgba(255,218,105,.28));min-height:205px}
+
+.mission-tools{display:flex;align-items:center;justify-content:center;gap:clamp(28px,10vw,72px);min-height:132px}
+
+.tool{border:0;background:rgba(255,255,255,.48);border-radius:22px;width:104px;height:104px;font-size:58px;cursor:pointer;touch-action:manipulation;box-shadow:0 8px 22px rgba(123,70,9,.12);transition:transform .2s,box-shadow .2s}
+
+.tool:active{transform:scale(.94)}
+
+.tool.selected{outline:3px solid #ff9b19;box-shadow:0 0 0 7px rgba(255,174,36,.18),0 0 28px #ffb52e}
+
+.tool:disabled{cursor:default}
+
+.tool-label{display:block;font:700 10px Arial,sans-serif;letter-spacing:.12em;color:#95601f;margin-top:7px}
+
+.hold-progress{height:9px;border-radius:99px;background:rgba(141,75,18,.13);overflow:hidden;max-width:270px;margin:10px auto 0}
+
+.hold-progress span{display:block;width:0;height:100%;border-radius:99px;background:linear-gradient(90deg,#ffb52e,#e85b16);transition:width .08s linear}
+
+.hold-note{font:12px/1.5 Arial,sans-serif;color:#946020;min-height:18px;margin:8px 0 0}
+
+.blast-overlay{position:fixed;inset:0;z-index:10;display:grid;place-items:center;background:rgba(65,29,5,.18);pointer-events:none}
+
+.blast-overlay[hidden]{display:none}
+
+.blast-word{font:900 clamp(54px,15vw,110px)/1 Arial,sans-serif;color:#fff;text-shadow:0 4px 0 #b94d0b,0 0 22px #ff8b00,0 0 55px #ffdd45;animation:blast .95s ease-out both}
+
+.wish-card{animation:arrive .65s ease both}
+
+.wish-card .mini-fireworks{font-size:42px;letter-spacing:8px;margin-bottom:18px}
+
+.wish-card h1{font-size:clamp(38px,9vw,68px);color:#a7470b;text-shadow:0 2px 0 #ffe39a}
+
+.wish-card .message{font-size:clamp(17px,3vw,20px)}
+
+.final-sign{margin:25px 0 0;font:italic 20px Georgia,serif;color:#9b5d16}
+
+.confetti{position:fixed;top:-20px;z-index:8;pointer-events:none;font-size:22px;animation:fall var(--dur) linear forwards;left:var(--x)}
+
+@keyframes twinkle{from{opacity:.55;transform:scale(.88)}to{opacity:1;transform:scale(1.12)}}
+
+@keyframes arrive{from{opacity:0;transform:translateY(16px) scale(.98)}to{opacity:1;transform:translateY(0) scale(1)}}
+
+@keyframes diyaPulse{from{filter:drop-shadow(0 0 4px #ffb52e)}to{filter:drop-shadow(0 0 15px #ff8c00)}}
+
+@keyframes blast{0%{opacity:0;transform:scale(.2) rotate(-12deg)}35%{opacity:1;transform:scale(1.18) rotate(5deg)}100%{opacity:0;transform:scale(1.7) rotate(0)}}
+
+@keyframes fall{to{transform:translateY(110svh) rotate(600deg);opacity:.1}}
+
+@media(max-width:520px){.corner{width:42vw;height:155px;transform:scale(.78);transform-origin:top left}.corner.right{transform:scaleX(-1) scale(.78);transform-origin:top right}.scene{padding-top:115px}.card{border-radius:22px}.tool{width:92px;height:92px;font-size:52px}}
+
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{animation:none!important;transition:none!important}}
+
 </style>
+
 </head>
+
 <body>
+
 <main class="scene" id="scene">
-  <div class="glow one"></div><div class="glow two"></div>
-  <div class="corner left" aria-hidden="true">
-    <i class="string"></i><i class="string s2"></i><i class="string s3"></i><i class="string s4"></i>
-    <i class="bulb" style="--top:103px;--left:10px;--delay:.1s"></i>
-    <i class="bulb" style="--top:75px;--left:77px;--delay:.7s"></i>
-    <i class="bulb" style="--top:118px;--left:138px;--delay:.3s"></i>
-    <i class="bulb" style="--top:84px;--left:213px;--delay:1s"></i>
-    <b class="spark a">✦</b><b class="spark b">✧</b><b class="spark c">✦</b>
-  </div>
-  <div class="corner right" aria-hidden="true">
-    <i class="string"></i><i class="string s2"></i><i class="string s3"></i><i class="string s4"></i>
-    <i class="bulb" style="--top:103px;--left:10px;--delay:.1s"></i>
-    <i class="bulb" style="--top:75px;--left:77px;--delay:.7s"></i>
-    <i class="bulb" style="--top:118px;--left:138px;--delay:.3s"></i>
-    <i class="bulb" style="--top:84px;--left:213px;--delay:1s"></i>
-    <b class="spark a">✦</b><b class="spark b">✧</b><b class="spark c">✦</b>
-  </div>
 
-  <section class="card intro">
-    <p class="eyebrow">A little festive surprise</p>
-    <h1>This Diwali,<br>a little differently.</h1>
-    <div class="divider">✧</div>
-    <p class="message">Hello! This Diwali, I wanted to do something a little different for you all, a small surprise, made with lots of warmth and good vibes. I hope it brings a smile to your face. Ready? Let’s begin!</p>
-    <p class="signature">By Nishant</p>
-    <button class="continue" id="continueBtn" type="button">
-      press meee <span class="firework-icon" aria-hidden="true">🎆</span>
-    </button>
-  </section>
+<div class="glow one"></div><div class="glow two"></div>
 
-  <section class="card next activity-card" aria-live="polite">
-    <p class="eyebrow">A tiny Diwali challenge</p>
-    <h1>Catch the diyas!</h1>
-    <p class="message">The diyas are getting mischievous! Catch <strong>7 glowing diyas in 20 seconds</strong>. They won't stay still, and watch out for the firecrackers!</p>
-    <div class="score-line">Diyas: <strong id="score">0</strong> / 7 <span style="padding-left:16px">Time: <strong id="timer">20</strong>s</span></div>
-    <div class="game-area" id="gameArea" aria-label="Catch moving diyas and avoid firecrackers">
-      <button class="diya-target" type="button" aria-label="Collect diya">🪔</button>
-      <button class="bomb-target" id="bombTarget" type="button" aria-label="Avoid firecracker" hidden>🧨</button>
-      <span class="game-hint" id="gameHint">Tap a diya to start. Avoid 🧨!</span>
-    </div>
-    <p class="game-status" id="gameStatus">Ready, set, glow! ✨</p>
-  </section>
+<div class="corner left" aria-hidden="true"><i class="string"></i><i class="string s2"></i><i class="string s3"></i><i class="string s4"></i><i class="bulb" style="--top:103px;--left:10px;--delay:.1s"></i><i class="bulb" style="--top:75px;--left:77px;--delay:.7s"></i><i class="bulb" style="--top:118px;--left:138px;--delay:.3s"></i><i class="bulb" style="--top:84px;--left:213px;--delay:1s"></i><b class="spark a">✦</b><b class="spark b">✧</b><b class="spark c">✦</b></div>
+
+<div class="corner right" aria-hidden="true"><i class="string"></i><i class="string s2"></i><i class="string s3"></i><i class="string s4"></i><i class="bulb" style="--top:103px;--left:10px;--delay:.1s"></i><i class="bulb" style="--top:75px;--left:77px;--delay:.7s"></i><i class="bulb" style="--top:118px;--left:138px;--delay:.3s"></i><i class="bulb" style="--top:84px;--left:213px;--delay:1s"></i><b class="spark a">✦</b><b class="spark b">✧</b><b class="spark c">✦</b></div>
+
+<section class="card intro" id="page1">
+
+<p class="eyebrow">A little festive surprise</p>
+
+<h1>This Diwali,<br>a little differently.</h1>
+
+<div class="divider">✧</div>
+
+<p class="message">Hello! This Diwali, I wanted to do something a little different for you all, a small surprise, made with lots of warmth and good vibes. I hope it brings a smile to your face. Ready? Let’s begin!</p>
+
+<p class="signature">By Nishant</p>
+
+<button class="continue" id="continueBtn" type="button">press meee <span class="firework-icon">🎆</span></button>
+
+</section>
+
+<section class="card activity-card" id="page2" aria-live="polite" hidden>
+
+<p class="eyebrow">A tiny Diwali challenge</p>
+
+<h1>Catch the diyas!</h1>
+
+<p class="message">The diyas are getting mischievous! Catch <strong>7 glowing diyas in 20 seconds</strong>. They won't stay still, and watch out for the firecrackers!</p>
+
+<div class="score-line">Diyas: <strong id="score">0</strong> / 7 <span style="padding-left:16px">Time: <strong id="timer">20</strong>s</span></div>
+
+<div class="game-area" id="gameArea" aria-label="Catch moving diyas and avoid firecrackers">
+
+<button class="diya-target" id="diyaTarget" type="button" aria-label="Collect diya">🪔</button>
+
+<button class="bomb-target" id="bombTarget" type="button" aria-label="Avoid firecracker" hidden>🧨</button>
+
+<span class="game-hint" id="gameHint">Tap a diya to start. Avoid 🧨!</span>
+
+</div>
+
+<p class="game-status" id="gameStatus">Ready, set, glow! ✨</p>
+
+</section>
+
+<section class="card page-three" id="page3" hidden aria-live="polite">
+
+<p class="eyebrow">Final mission unlocked</p>
+
+<h1>You're almost at the end!</h1>
+
+<p class="message">One last little adventure. Let's finish this game with a <strong>DONE BLAST!</strong> 💥</p>
+
+<div class="mission-stage" id="missionStage">
+
+<div class="mission-tools">
+
+<div><button class="tool" id="flameTool" type="button" aria-label="Pick up the flame">🔥</button><span class="tool-label">THE FIRE</span></div>
+
+<div><button class="tool" id="finalBomb" type="button" aria-label="Hold on the bomb fuse">💣</button><span class="tool-label">THE BOMB</span></div>
+
+</div>
+
+<div class="hold-progress" aria-label="Fuse lighting progress"><span id="holdProgress"></span></div>
+
+<p class="hold-note" id="holdNote">First, tap the fire to pick it up.</p>
+
+</div>
+
+<p class="game-status" id="blastStatus">Ready for the final blast? 😎</p>
+
+</section>
+
+<section class="card wish-card" id="finalWish" hidden>
+
+<div class="mini-fireworks">🎆 ✨ 🪔</div>
+
+<p class="eyebrow">A little light, a lot of love</p>
+
+<h1>HAPPY<br>DIWALI!</h1>
+
+<div class="divider">✧</div>
+
+<p class="message">May your life sparkle with happiness, laughter, love and endless beautiful moments. May this festival bring fresh beginnings, warm memories and countless reasons to smile. ✨</p>
+
+<p class="final-sign">With lots of good vibes,<br><strong>NISHANT ❤️</strong></p>
+
+</section>
+
 </main>
+
+<div class="blast-overlay" id="blastOverlay" hidden><div class="blast-word">BOOOOM!</div></div>
+
 <script>
-  const scene = document.getElementById('scene');
-  const introCard = document.querySelector('.intro');
-  const activityCard = document.querySelector('.next');
-  const continueBtn = document.getElementById('continueBtn');
-  const diya = document.querySelector('.diya-target');
-  const bomb = document.getElementById('bombTarget');
-  const gameArea = document.getElementById('gameArea');
-  const scoreLabel = document.getElementById('score');
-  const timerLabel = document.getElementById('timer');
-  const statusLabel = document.getElementById('gameStatus');
-  const hint = document.getElementById('gameHint');
 
-  let score = 0;
-  let timeLeft = 20;
-  let started = false;
-  let finished = false;
-  let countdown = null;
-  let mover = null;
-  let bombTimeout = null;
-  let bombHideTimeout = null;
+const page1=document.getElementById('page1');
 
-  continueBtn.addEventListener('click', () => {
-    introCard.hidden = true;
-    activityCard.hidden = false;
-    activityCard.style.display = 'block';
-    activityCard.style.animation = 'arrive .6s ease both';
-    activityCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  });
+const page2=document.getElementById('page2');
 
-  function placeRandomly(el) {
-    const maxX = Math.max(8, gameArea.clientWidth - 66);
-    const maxY = Math.max(8, gameArea.clientHeight - 76);
-    el.style.left = (8 + Math.random() * maxX) + 'px';
-    el.style.top = (8 + Math.random() * maxY) + 'px';
-    el.style.transform = 'none';
-  }
+const page3=document.getElementById('page3');
 
-  function endGame(won) {
-    if (finished) return;
-    finished = true;
-    clearInterval(countdown);
-    clearInterval(mover);
-    clearTimeout(bombTimeout);
-    clearTimeout(bombHideTimeout);
-    diya.disabled = true;
-    bomb.hidden = true;
+const finalWish=document.getElementById('finalWish');
 
-    if (won) {
-      diya.hidden = true;
-      hint.textContent = 'Every little light has found its home!';
-      statusLabel.textContent = 'You did it! Seven diyas in time! 🎉';
-    } else {
-      statusLabel.textContent = 'Time’s up! You caught ' + score + ' of 7. Give it another go! 💛';
-      hint.textContent = 'Tap the diya to try again.';
-      const retry = document.createElement('button');
-      retry.className = 'continue';
-      retry.textContent = 'Try again 🔄';
-      retry.style.margin = '0 0 12px 8px';
-      retry.addEventListener('click', () => {
-        retry.remove();
-        resetGame();
-      });
-    activityCard.appendChild(retry);
-    }
-  }
+const continueBtn=document.getElementById('continueBtn');
 
-  function scheduleBomb() {
-    if (finished) return;
-    bombTimeout = setTimeout(() => {
-      if (finished) return;
-      placeRandomly(bomb);
-      bomb.hidden = false;
-      bombHideTimeout = setTimeout(() => { bomb.hidden = true; }, 1150);
-      scheduleBomb();
-    }, 2300 + Math.random() * 1300);
-  }
+const diya=document.getElementById('diyaTarget');
 
-  function startGame() {
-    if (started || finished) return;
-    started = true;
-    statusLabel.textContent = 'Go, go, go! Catch those lights! ✨';
-    hint.textContent = 'Avoid the firecrackers. They cost 3 seconds!';
-    countdown = setInterval(() => {
-      timeLeft -= 1;
-      timerLabel.textContent = timeLeft;
-      if (timeLeft <= 0) endGame(false);
-    }, 1000);
-    mover = setInterval(() => placeRandomly(diya), 850);
-    scheduleBomb();
-  }
+const bomb=document.getElementById('bombTarget');
 
-  function resetGame() {
-    score = 0;
-    timeLeft = 20;
-    started = false;
-    finished = false;
-    scoreLabel.textContent = '0';
-    timerLabel.textContent = '20';
-    statusLabel.textContent = 'Ready, set, glow! ✨';
-    hint.textContent = 'Tap a diya to start. Avoid 🧨!';
-    diya.hidden = false;
-    diya.disabled = false;
-    bomb.hidden = true;
-    placeRandomly(diya);
-  }
+const gameArea=document.getElementById('gameArea');
 
-  diya.addEventListener('click', () => {
-    if (finished) return;
-    startGame();
-    score += 1;
-    scoreLabel.textContent = score;
-    statusLabel.textContent = ['Nice catch! ✨', 'Keep going! 🌟', 'Quick hands! 🪔', 'Halfway there! 💛', 'Almost glowing! 🎆', 'One more after this! 🔥'][Math.min(score - 1, 5)];
-    if (score >= 7) endGame(true);
-    else placeRandomly(diya);
-  });
+const scoreLabel=document.getElementById('score');
 
-  bomb.addEventListener('click', () => {
-    if (finished || !started) return;
-    timeLeft = Math.max(0, timeLeft - 3);
-    timerLabel.textContent = timeLeft;
-    bomb.hidden = true;
-    statusLabel.textContent = 'Oops! Firecracker! −3 seconds! 💥';
-    if (timeLeft <= 0) endGame(false);
-  });
+const timerLabel=document.getElementById('timer');
 
-  page3Btn.addEventListener('click', () => {
-    if (score === 7 && finished) {
-      activityCard.hidden = true;
-      activityCard.style.display = 'none';
-      const pageThree = document.getElementById('pageThree');
-      pageThree.hidden = false;
-      pageThree.style.display = 'block';
-      pageThree.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
-  });
+const statusLabel=document.getElementById('gameStatus');
 
-  resetGame();
+const hint=document.getElementById('gameHint');
+
+let score=0,timeLeft=20,started=false,finished=false;
+
+let countdown=null,mover=null,bombTimeout=null,bombHideTimeout=null;
+
+continueBtn.addEventListener('click',()=>{
+
+page1.hidden=true;
+
+page2.hidden=false;
+
+page2.scrollIntoView({behavior:'smooth',block:'center'});
+
+placeRandomly(diya);
+
+});
+
+function placeRandomly(el){
+
+const maxX=Math.max(8,gameArea.clientWidth-66);
+
+const maxY=Math.max(8,gameArea.clientHeight-76);
+
+el.style.left=(8+Math.random()*maxX)+'px';
+
+el.style.top=(8+Math.random()*maxY)+'px';
+
+el.style.transform='none';
+
+}
+
+function startGame(){
+
+if(started||finished)return;
+
+started=true;
+
+statusLabel.textContent='Go, go, go! Catch those lights! ✨';
+
+hint.textContent='Avoid the firecrackers. They cost 3 seconds!';
+
+countdown=setInterval(()=>{
+
+timeLeft--;
+
+timerLabel.textContent=timeLeft;
+
+if(timeLeft<=0)endGame(false);
+
+},1000);
+
+mover=setInterval(()=>placeRandomly(diya),850);
+
+scheduleBomb();
+
+}
+
+function scheduleBomb(){
+
+if(finished)return;
+
+bombTimeout=setTimeout(()=>{
+
+if(finished)return;
+
+placeRandomly(bomb);
+
+bomb.hidden=false;
+
+bombHideTimeout=setTimeout(()=>{bomb.hidden=true},1150);
+
+scheduleBomb();
+
+},2300+Math.random()*1300);
+
+}
+
+function stopGameTimers(){
+
+clearInterval(countdown);
+
+clearInterval(mover);
+
+clearTimeout(bombTimeout);
+
+clearTimeout(bombHideTimeout);
+
+}
+
+function endGame(won){
+
+if(finished)return;
+
+finished=true;
+
+stopGameTimers();
+
+diya.disabled=true;
+
+bomb.hidden=true;
+
+if(won){
+
+diya.hidden=true;
+
+hint.textContent='Every little light has found its home!';
+
+statusLabel.textContent='You did it! Seven diyas in time! 🎉';
+
+setTimeout(showPage3,1100);
+
+}else{
+
+statusLabel.textContent='Time’s up! You caught '+score+' of 7. Give it another go! 💛';
+
+hint.textContent='Tap the diya to try again.';
+
+const retry=document.createElement('button');
+
+retry.className='continue retry';
+
+retry.textContent='Try again 🔄';
+
+retry.addEventListener('click',()=>{
+
+retry.remove();
+
+resetGame();
+
+});
+
+statusLabel.insertAdjacentElement('afterend',retry);
+
+}
+
+}
+
+function resetGame(){
+
+score=0;
+
+timeLeft=20;
+
+started=false;
+
+finished=false;
+
+scoreLabel.textContent='0';
+
+timerLabel.textContent='20';
+
+statusLabel.textContent='Ready, set, glow! ✨';
+
+hint.textContent='Tap a diya to start. Avoid 🧨!';
+
+diya.hidden=false;
+
+diya.disabled=false;
+
+bomb.hidden=true;
+
+placeRandomly(diya);
+
+}
+
+diya.addEventListener('click',()=>{
+
+if(finished)return;
+
+startGame();
+
+score++;
+
+scoreLabel.textContent=score;
+
+statusLabel.textContent=['Nice catch! ✨','Keep going! 🌟','Quick hands! 🪔','Halfway there! 💛','Almost glowing! 🎆','One more after this! 🔥'][Math.min(score-1,5)];
+
+if(score>=7)endGame(true);
+
+else placeRandomly(diya);
+
+});
+
+bomb.addEventListener('click',()=>{
+
+if(finished||!started)return;
+
+timeLeft=Math.max(0,timeLeft-3);
+
+timerLabel.textContent=timeLeft;
+
+bomb.hidden=true;
+
+statusLabel.textContent='Oops! Firecracker! −3 seconds! 💥';
+
+if(timeLeft<=0)endGame(false);
+
+});
+
+// PAGE 3: DONE BLAST
+
+const flameTool=document.getElementById('flameTool');
+
+const finalBomb=document.getElementById('finalBomb');
+
+const holdProgress=document.getElementById('holdProgress');
+
+const holdNote=document.getElementById('holdNote');
+
+const blastStatus=document.getElementById('blastStatus');
+
+const blastOverlay=document.getElementById('blastOverlay');
+
+let flamePicked=false,holdTimer=null,holdStart=null,blastDone=false;
+
+function showPage3(){
+
+page2.hidden=true;
+
+page3.hidden=false;
+
+page3.scrollIntoView({behavior:'smooth',block:'center'});
+
+}
+
+flameTool.addEventListener('click',()=>{
+
+if(blastDone)return;
+
+flamePicked=true;
+
+flameTool.classList.add('selected');
+
+holdNote.textContent='You picked up the fire! Now press and HOLD the bomb for 3 seconds.';
+
+blastStatus.textContent='Careful… light the fuse! 🔥';
+
+});
+
+function updateHoldProgress(){
+
+if(!holdStart)return;
+
+const elapsed=Date.now()-holdStart;
+
+const pct=Math.min(100,(elapsed/3000)*100);
+
+holdProgress.style.width=pct+'%';
+
+if(pct>=100)finishBlast();
+
+}
+
+function beginHold(e){
+
+if(!flamePicked||blastDone)return;
+
+e.preventDefault();
+
+if(holdTimer)return;
+
+holdStart=Date.now();
+
+holdNote.textContent='Keep holding… don’t let go!';
+
+finalBomb.classList.add('selected');
+
+holdTimer=setInterval(updateHoldProgress,40);
+
+}
+
+function cancelHold(){
+
+if(!holdTimer||blastDone)return;
+
+clearInterval(holdTimer);
+
+holdTimer=null;
+
+holdStart=null;
+
+holdProgress.style.width='0%';
+
+finalBomb.classList.remove('selected');
+
+holdNote.textContent='The fuse went out! Hold the bomb for the full 3 seconds.';
+
+blastStatus.textContent='Try again — you’ve got this!';
+
+}
+
+function finishBlast(){
+
+if(blastDone)return;
+
+blastDone=true;
+
+clearInterval(holdTimer);
+
+holdTimer=null;
+
+holdStart=null;
+
+holdProgress.style.width='100%';
+
+finalBomb.classList.remove('selected');
+
+flameTool.disabled=true;
+
+finalBomb.disabled=true;
+
+holdNote.textContent='FUSE LIT! Stand back…';
+
+blastStatus.textContent='3… 2… 1…';
+
+blastOverlay.hidden=false;
+
+launchConfetti();
+
+setTimeout(()=>{
+
+blastOverlay.hidden=true;
+
+page3.hidden=true;
+
+finalWish.hidden=false;
+
+finalWish.scrollIntoView({behavior:'smooth',block:'center'});
+
+launchConfetti();
+
+},1050);
+
+}
+
+finalBomb.addEventListener('pointerdown',beginHold);
+
+finalBomb.addEventListener('pointerup',cancelHold);
+
+finalBomb.addEventListener('pointerleave',cancelHold);
+
+finalBomb.addEventListener('pointercancel',cancelHold);
+
+function launchConfetti(){
+
+const pieces=['✨','🎆','💛','🪔','🎉','⭐'];
+
+for(let i=0;i<34;i++){
+
+const p=document.createElement('span');
+
+p.className='confetti';
+
+p.textContent=pieces[Math.floor(Math.random()*pieces.length)];
+
+p.style.setProperty('--x',Math.random()*100+'vw');
+
+p.style.setProperty('--dur',(2.4+Math.random()*2.3)+'s');
+
+p.style.animationDelay=(Math.random()*.65)+'s';
+
+document.body.appendChild(p);
+
+setTimeout(()=>p.remove(),5200);
+
+}
+
+}
+
+resetGame();
+
 </script>
+
 </body>
+
 </html>
