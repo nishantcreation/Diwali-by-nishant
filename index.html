@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#ffd84d">
+<title>A Little Diwali Surprise By Nishant</title>
+<style>
+  :root { --gold:#ffd84d; --deep:#8b4b13; --ink:#4b2b0b; --cream:#fff8dc; }
+  * { box-sizing:border-box; }
+  html,body { margin:0; min-height:100%; }
+  body {
+    min-height:100vh; overflow:hidden; color:var(--ink);
+    font-family: Georgia, "Times New Roman", serif;
+    background:
+      radial-gradient(ellipse at 50% 42%, rgba(255,255,255,.82) 0%, rgba(255,248,220,.74) 34%, transparent 70%),
+      linear-gradient(135deg,#ffe98b 0%,#ffd84d 48%,#f6b928 100%);
+  }
+  .scene { min-height:100svh; display:grid; place-items:center; position:relative; isolation:isolate; padding:110px 22px 42px; }
+  .glow { position:absolute; width:340px; height:340px; border-radius:50%; filter:blur(45px); opacity:.35; z-index:-1; }
+  .glow.one { background:#fff; top:18%; left:12%; }
+  .glow.two { background:#ff9d27; right:8%; bottom:8%; }
+  .corner { position:absolute; top:0; width:min(34vw,310px); height:210px; pointer-events:none; }
+  .corner.left { left:0; }
+  .corner.right { right:0; transform:scaleX(-1); }
+  .string { position:absolute; left:18px; top:-5px; width:2px; height:112px; background:linear-gradient(#a55a16,#c77a20); transform:rotate(9deg); transform-origin:top; }
+  .string.s2 { left:84px; height:82px; transform:rotate(-5deg); }
+  .string.s3 { left:145px; height:125px; transform:rotate(7deg); }
+  .string.s4 { left:220px; height:91px; transform:rotate(-8deg); }
+  .bulb { position:absolute; top:var(--top); left:var(--left); width:17px; height:23px; border-radius:50% 50% 48% 48%; background:#fff5a6; box-shadow:0 0 8px 4px #fff4a0,0 0 22px 8px rgba(255,173,34,.8); animation:twinkle 1.8s ease-in-out infinite alternate; animation-delay:var(--delay); }
+  .bulb:before { content:""; position:absolute; width:7px; height:5px; background:#a65c1b; top:-4px; left:5px; border-radius:2px; }
+  .spark { position:absolute; font-family:Arial,sans-serif; color:#fff8c2; font-size:29px; text-shadow:0 0 8px #ff9b19,0 0 18px #ff9b19; animation:twinkle 1.4s infinite alternate; }
+  .spark.a { top:122px; left:30px; } .spark.b { top:48px; left:178px; font-size:22px; }
+  .spark.c { top:145px; left:232px; font-size:19px; }
+  .card { width:min(680px,100%); text-align:center; padding:clamp(28px,6vw,58px) clamp(22px,6vw,60px); border:1px solid rgba(151,88,17,.22); border-radius:28px; background:rgba(255,252,232,.64); box-shadow:0 22px 70px rgba(128,76,10,.14), inset 0 1px 0 rgba(255,255,255,.9); backdrop-filter:blur(9px); animation:arrive 1s cubic-bezier(.2,.8,.2,1) both; }
+  .eyebrow { text-transform:uppercase; letter-spacing:.24em; font:600 11px/1.5 Arial,sans-serif; color:#a86a19; margin:0 0 22px; }
+  h1 { font-size:clamp(34px,7vw,58px); line-height:1.05; font-weight:500; margin:0 auto 22px; color:#713b0e; }
+  .divider { display:flex; align-items:center; gap:12px; justify-content:center; margin:0 auto 24px; color:#c17a1b; }
+  .divider:before,.divider:after { content:""; width:54px; height:1px; background:linear-gradient(90deg,transparent,#c17a1b); }
+  .divider:after { transform:scaleX(-1); }
+  .message { max-width:490px; margin:0 auto; font:400 clamp(16px,2.6vw,19px)/1.8 Arial,sans-serif; color:#68451f; }
+  .signature { margin:28px 0 30px; font-style:italic; font-size:19px; color:#9b5d16; }
+  .continue { display:inline-flex; align-items:center; justify-content:center; gap:12px; border:0; border-radius:999px; padding:15px 25px 15px 28px; background:#8d4b12; color:#fff8df; font:600 14px Arial,sans-serif; letter-spacing:.04em; cursor:pointer; box-shadow:0 8px 20px rgba(110,57,8,.22); transition:transform .2s, box-shadow .2s, background .2s; }
+  .continue:hover { transform:translateY(-3px); background:#713a0c; box-shadow:0 12px 24px rgba(110,57,8,.28); }
+  .firework-icon { font-size:22px; line-height:1; }
+  .footnote { position:absolute; bottom:17px; left:0; right:0; text-align:center; color:rgba(89,53,13,.58); font:11px Arial,sans-serif; letter-spacing:.12em; text-transform:uppercase; }
+  .next { display:none; }
+  .scene.show-next .intro { display:none; }
+  .scene.show-next .next { display:block; animation:arrive .6s ease both; }
+  .mini-fireworks { font-size:44px; letter-spacing:12px; margin-bottom:18px; }
+  @keyframes twinkle { from { opacity:.55; transform:scale(.88); } to { opacity:1; transform:scale(1.12); } }
+  @keyframes arrive { from { opacity:0; transform:translateY(18px) scale(.98); } to { opacity:1; transform:translateY(0) scale(1); } }
+  .activity-card { max-width:720px; }
+  .page-three { display:none; }
+  .score-line { margin:18px 0 12px; font:15px Arial,sans-serif; color:#855018; }
+  .score-line strong { font-size:20px; color:#713b0e; }
+  .game-area { position:relative; height:190px; max-width:480px; margin:0 auto 12px; overflow:hidden; border:1px dashed rgba(141,75,18,.35); border-radius:20px; background:rgba(255,220,105,.28); }
+  .diya-target { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); border:0; background:transparent; font-size:43px; cursor:pointer; filter:drop-shadow(0 0 9px #ffb52e); animation:diyaPulse 1s ease-in-out infinite alternate; padding:12px; }
+  .diya-target:focus-visible { outline:3px solid #8d4b12; border-radius:50%; }
+  .game-hint { position:absolute; left:0; right:0; bottom:10px; text-align:center; font:12px Arial,sans-serif; color:#946020; pointer-events:none; }
+  .game-status { min-height:22px; margin:8px 0 18px; font:14px Arial,sans-serif; color:#855018; }
+  .continue.locked { opacity:.55; cursor:not-allowed; box-shadow:none; }
+  .continue.unlocked { background:#267044; }
+  @keyframes diyaPulse { from { filter:drop-shadow(0 0 4px #ffb52e); } to { filter:drop-shadow(0 0 15px #ff8c00); } }
+  @media(max-width:520px) {
+    .corner { width:42vw; height:155px; transform:scale(.78); transform-origin:top left; }
+    .corner.right { transform:scaleX(-1) scale(.78); transform-origin:top right; }
+    .scene { padding-top:120px; }
+    .card { border-radius:22px; }
+  }
+  @media(prefers-reduced-motion:reduce) { *,*:before,*:after { animation:none!important; transition:none!important; } }
+</style>
+</head>
+<body>
+<main class="scene" id="scene">
+  <div class="glow one"></div><div class="glow two"></div>
+  <div class="corner left" aria-hidden="true">
+    <i class="string"></i><i class="string s2"></i><i class="string s3"></i><i class="string s4"></i>
+    <i class="bulb" style="--top:103px;--left:10px;--delay:.1s"></i>
+    <i class="bulb" style="--top:75px;--left:77px;--delay:.7s"></i>
+    <i class="bulb" style="--top:118px;--left:138px;--delay:.3s"></i>
+    <i class="bulb" style="--top:84px;--left:213px;--delay:1s"></i>
+    <b class="spark a">✦</b><b class="spark b">✧</b><b class="spark c">✦</b>
+  </div>
+  <div class="corner right" aria-hidden="true">
+    <i class="string"></i><i class="string s2"></i><i class="string s3"></i><i class="string s4"></i>
+    <i class="bulb" style="--top:103px;--left:10px;--delay:.1s"></i>
+    <i class="bulb" style="--top:75px;--left:77px;--delay:.7s"></i>
+    <i class="bulb" style="--top:118px;--left:138px;--delay:.3s"></i>
+    <i class="bulb" style="--top:84px;--left:213px;--delay:1s"></i>
+    <b class="spark a">✦</b><b class="spark b">✧</b><b class="spark c">✦</b>
+  </div>
+
+  <section class="card intro">
+    <p class="eyebrow">A little festive surprise</p>
+    <h1>This Diwali,<br>a little differently.</h1>
+    <div class="divider">✧</div>
+    <p class="message">Hello! This Diwali, I wanted to do something a little different for you all, a small surprise, made with lots of warmth and good vibes. I hope it brings a smile to your face. Ready? Let’s begin!</p>
+    <p class="signature">By Nishant</p>
+    <button class="continue" id="continueBtn" type="button">
+      press meee <span class="firework-icon" aria-hidden="true">🎆</span>
+    </button>
+  </section>
+
+  <section class="card next activity-card" aria-live="polite">
+    <p class="eyebrow">A tiny Diwali challenge</p>
+    <h1>Catch the diyas!</h1>
+    <p class="message">A few little lights have escaped! Tap <strong>5 glowing diyas</strong> to collect them and unlock your next surprise.</p>
+    <div class="score-line">Diyas collected: <strong id="score">0</strong> / 5</div>
+    <div class="game-area" id="gameArea" aria-label="Tap the glowing diyas as they appear">
+      <button class="diya-target" type="button" aria-label="Collect diya">🪔</button>
+      <span class="game-hint" id="gameHint">Tap the diya to catch it!</span>
+    </div>
+    <p class="game-status" id="gameStatus">Ready, set, glow! ✨</p>
+    <button class="continue locked" id="page3Btn" type="button" disabled>Complete the challenge first 🔒</button>
+  </section>
+  <section class="card page-three" id="pageThree" aria-live="polite">
+    <div class="mini-fireworks" aria-hidden="true">🎇 ✨ 🎆</div>
+    <p class="eyebrow">Challenge complete</p>
+    <h1>You made it!</h1>
+    <p class="message">Your next Diwali surprise will go here. Tell Nishant what you’d like to see on Page 3!</p>
+  </section>
+</main>
+<script>
+  const scene = document.getElementById('scene');
+  const introCard = document.querySelector('.intro');
+  const activityCard = document.querySelector('.next');
+  introCard.hidden = false;
+  activityCard.hidden = true;
+  const continueBtn = document.getElementById('continueBtn');
+  const diya = document.querySelector('.diya-target');
+  const gameArea = document.getElementById('gameArea');
+  const scoreLabel = document.getElementById('score');
+  const statusLabel = document.getElementById('gameStatus');
+  const page3Btn = document.getElementById('page3Btn');
+  const hint = document.getElementById('gameHint');
+  let score = 0;
+
+  continueBtn.addEventListener('click', () => {
+    introCard.hidden = true;
+    activityCard.hidden = false;
+    activityCard.style.display = 'block';
+    activityCard.style.animation = 'arrive .6s ease both';
+    activityCard.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  function moveDiya() {
+    const maxX = Math.max(12, gameArea.clientWidth - 68);
+    const maxY = Math.max(12, gameArea.clientHeight - 76);
+    diya.style.left = (12 + Math.random() * maxX) + 'px';
+    diya.style.top = (8 + Math.random() * maxY) + 'px';
+    diya.style.transform = 'none';
+  }
+
+  diya.addEventListener('click', () => {
+    if (score >= 5) return;
+    score += 1;
+    scoreLabel.textContent = score;
+    if (score < 5) {
+      statusLabel.textContent = ['Lovely catch! ✨', 'You’re on a roll! 🌟', 'Almost there! 🪔', 'One more little light! 💛'][score - 1];
+      moveDiya();
+    } else {
+      diya.style.display = 'none';
+      hint.textContent = 'You caught every little light!';
+      statusLabel.textContent = 'All 5 diyas collected! You did it! 🎉';
+      page3Btn.disabled = false;
+      page3Btn.classList.remove('locked');
+      page3Btn.classList.add('unlocked');
+      page3Btn.textContent = 'Continue to page 3 ✨';
+    }
+  });
+
+  page3Btn.addEventListener('click', () => {
+    if (score === 5) {
+      activityCard.hidden = true;
+      activityCard.style.display = 'none';
+      const pageThree = document.getElementById('pageThree');
+      pageThree.hidden = false;
+      pageThree.style.display = 'block';
+      pageThree.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  });
+</script>
+</body>
+</html>
