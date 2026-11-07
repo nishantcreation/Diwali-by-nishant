@@ -115,13 +115,6 @@
       <span class="game-hint" id="gameHint">Tap a diya to start. Avoid 🧨!</span>
     </div>
     <p class="game-status" id="gameStatus">Ready, set, glow! ✨</p>
-    <button class="continue locked" id="page3Btn" type="button" disabled>Complete the challenge first 🔒</button>
-  </section>
-  <section class="card page-three" id="pageThree" aria-live="polite">
-    <div class="mini-fireworks" aria-hidden="true">🎇 ✨ 🎆</div>
-    <p class="eyebrow">Challenge complete</p>
-    <h1>You made it!</h1>
-    <p class="message">Your next Diwali surprise will go here. Tell Nishant what you’d like to see on Page 3!</p>
   </section>
 </main>
 <script>
@@ -135,7 +128,6 @@
   const scoreLabel = document.getElementById('score');
   const timerLabel = document.getElementById('timer');
   const statusLabel = document.getElementById('gameStatus');
-  const page3Btn = document.getElementById('page3Btn');
   const hint = document.getElementById('gameHint');
 
   let score = 0;
@@ -177,10 +169,6 @@
       diya.hidden = true;
       hint.textContent = 'Every little light has found its home!';
       statusLabel.textContent = 'You did it! Seven diyas in time! 🎉';
-      page3Btn.disabled = false;
-      page3Btn.classList.remove('locked');
-      page3Btn.classList.add('unlocked');
-      page3Btn.textContent = 'Continue to page 3 ✨';
     } else {
       statusLabel.textContent = 'Time’s up! You caught ' + score + ' of 7. Give it another go! 💛';
       hint.textContent = 'Tap the diya to try again.';
@@ -192,7 +180,7 @@
         retry.remove();
         resetGame();
       });
-      page3Btn.before(retry);
+    activityCard.appendChild(retry);
     }
   }
 
@@ -233,10 +221,6 @@
     diya.hidden = false;
     diya.disabled = false;
     bomb.hidden = true;
-    page3Btn.disabled = true;
-    page3Btn.classList.add('locked');
-    page3Btn.classList.remove('unlocked');
-    page3Btn.textContent = 'Complete the challenge first 🔒';
     placeRandomly(diya);
   }
 
